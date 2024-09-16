@@ -1,0 +1,211 @@
+// 14354 > 4548
+#test is_equal_1
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 14354;
+    _from_int_to_decimal(number, &dec);
+    number = 4548;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// 354 < 4548
+#test is_equal_2
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    number = 4548;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_equal(dec, dec2);;
+    ck_assert_int_eq(compare, 0);
+}
+
+// 354 = 354
+#test is_equal_3
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    number = 354;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 1);
+}
+
+// -354 < 54
+#test is_equal_4
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -354;
+    _from_int_to_decimal(number, &dec);
+    number = 54;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// 354 > -1254
+#test is_equal_5
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    number = -1254;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// -354 = -354
+#test is_equal_6
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -354;
+    _from_int_to_decimal(number, &dec);
+    number = -354;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 1);
+}
+
+// -35.4 = -35.4
+#test is_equal_7
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -354;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 1);
+    number = -354;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 1);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 1);
+}
+
+// 35.4 < 485.965
+#test is_equal_8
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 1);
+    number = 485965;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 3);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// 35.4 > 4.85965
+#test is_equal_9
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 1);
+    number = 485965;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 5);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// 35.84 = 35.84
+#test is_equal_10
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 3584;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = 3584;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 2);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 1);
+}
+
+// -35.84 < -3.84
+#test is_equal_11
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -3584;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = -384;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 2);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// -35.84 > -113.84
+#test is_equal_12
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -3584;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = -11384;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 2);
+    int compare = _is_equal(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+#test is_equal_13
+{
+     _decimal dec1 = {.bits[0] = 15,
+                      .bits[1] = 15,
+                      .bits[2] = 15,
+                      .bits[3] = 0b10000000000001010000000000000000};
+  _decimal dec2 = {.bits[0] = 10,
+                      .bits[1] = 10,
+                      .bits[2] = 10,
+                      .bits[3] = 0b10000000000001010000000000000000};
+  int res = _is_equal(dec1, dec2);
+  ck_assert_int_eq(res, 0);
+}
+
+#test is_equal_14
+{
+    _decimal dec1 = {{0x00000000, 0x00000000, 0x00000000, 0x00030000}};
+  _decimal dec2 = {{0x00000000, 0x00000000, 0x00000000, 0x00030000}};
+
+  int res = _is_equal(dec1, dec2);
+  ck_assert_int_eq(res, 1);
+}
+
+#test is_equal_15
+{
+     _decimal dec1 = {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};
+  _decimal dec2 = {{0x00000000, 0x00000000, 0x00000000, 0x80000000}};
+
+  int res = _is_equal(dec1, dec2);
+  ck_assert_int_eq(res, 0);
+}

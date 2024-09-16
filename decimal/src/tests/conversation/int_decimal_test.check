@@ -1,0 +1,180 @@
+#include "_decimal.h"
+
+
+#test from_int_to_decimal_pozitive
+{
+    _decimal *dec = init_decimal();
+    int code, chislo;
+    for (int i = 0; i < 30; i++){
+        chislo = rand();
+        code = _from_int_to_decimal(chislo,dec);
+        ck_assert_int_eq(code,0);
+        ck_assert_int_eq(chislo,dec->bits[0]);
+    }
+    free(dec);
+}
+
+#test from_int_to_decimal_negative
+{
+    _decimal *dec = init_decimal();
+    int code, chislo;
+    for (int i = 0; i < 30; i++){
+        chislo = rand() * (-1);
+        code = _from_int_to_decimal(chislo,dec);
+        ck_assert_int_eq(code,0);
+        ck_assert_int_eq(chislo * (-1),dec->bits[0]);
+        ck_assert_int_eq(1,get_sign(*dec));
+    }
+    free(dec);
+}
+
+#test from_int_to_decimal_error
+{
+    _decimal *dec = NULL;
+    int code, chislo;
+    chislo = 1;
+    code = _from_int_to_decimal(chislo,dec);
+    ck_assert_int_eq(code,1);
+}
+
+
+#test from_decimal_to_int_int
+{
+    _decimal *dec = init_decimal();
+    int code, chislo,new;
+    for (int i = 0; i < 30; i++){
+        chislo = rand();
+        _from_int_to_decimal(chislo,dec);
+        code = _from_decimal_to_int(*dec,&new);
+        ck_assert_int_eq(code,0);
+        ck_assert_int_eq(chislo,new);
+    }
+    free(dec);
+}
+
+#test from_decimal_to_int_float
+{
+    _decimal *dec = init_decimal();
+    int code, new;
+    float chislo;
+    for (int i = 0; i < 30; i++){
+        chislo = get_rand_float(-10000,100000);
+        _from_float_to_decimal(chislo,dec);
+        code = _from_decimal_to_int(*dec,&new);
+        ck_assert_int_eq(code,0);
+        ck_assert_int_eq((int)chislo,new);
+        
+    }
+    free(dec);
+}
+
+#test from_decimal_to_int_error
+{
+    _decimal *dec = init_decimal();
+    int code, new;
+    float chislo;
+    for (int i = 0; i < 30; i++){
+        chislo = get_rand_float(1.0e+15F,1.0e+20F);
+        dec->bits[3] = MAX_INT;
+        code = _from_float_to_decimal(chislo,dec);
+        code = _from_decimal_to_int(*dec,&new);
+        
+        ck_assert_int_eq(code,1);
+    }
+    free(dec);
+}
+
+#test from_decimal_to_int_error_NULL
+{
+    _decimal *dec = NULL;
+    int code, new;
+    float chislo;
+    for (int i = 0; i < 30; i++){
+        chislo = get_rand_float(1.0e+15F,1.0e+20F);
+        code = _from_float_to_decimal(chislo,dec);
+        if (code == 0){
+        code = _from_decimal_to_int(*dec,&new);
+        }
+        ck_assert_int_eq(code,1);
+        
+    }
+    free(dec);
+}
+
+#test _from_decimal_to_int_0
+{
+  _decimal a = {{0xba1eccc0, 0xc20df37b, 0x3ec10d97, 0x80130000}};
+  int toInt = 0;
+  int _ret = _from_decimal_to_int(a, &toInt);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_int_eq(toInt, -1942145748);
+}
+
+
+#test _from_decimal_to_int_1 
+{
+  _decimal a = {{0xad95c559, 0xb3d99c8e, 0x24372227, 0x00130000}};
+  int toInt = 0;
+  int _ret = _from_decimal_to_int(a, &toInt);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_int_eq(toInt, 1120811256);
+}
+
+
+#test _from_decimal_to_int_2
+{
+  _decimal a = {{0x65ea2349, 0x429f839f, 0x2d9d5d09, 0x00130000}};
+  int toInt = 0;
+  int _ret = _from_decimal_to_int(a, &toInt);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_int_eq(toInt, 1411706614);
+}
+
+
+#test _from_decimal_to_int_3 
+{
+  _decimal a = {{0x00000000, 0x00000001, 0x00000001, 0x00000000}};
+  int toInt = 0;
+  int _ret = _from_decimal_to_int(a, &toInt);
+  int expected_ret = 1;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_int_eq(toInt, 0);
+}
+
+#test _from_int_to_decimal_0
+{
+  _decimal res;
+  int fromInt = 2147483647;
+  int _ret = _from_int_to_decimal(fromInt, &res);
+  _decimal expected = {{0x7fffffff, 0x00000000, 0x00000000, 0x00000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+
+#test _from_int_to_decimal_1
+{
+  _decimal res;
+  int fromInt = -489;
+  int _ret = _from_int_to_decimal(fromInt, &res);
+  _decimal expected = {{0x000001e9, 0x00000000, 0x00000000, 0x80000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+
+#test _from_int_to_decimal_2 
+{
+  _decimal res;
+  int fromInt = -419;
+  int _ret = _from_int_to_decimal(fromInt, &res);
+  _decimal expected = {{0x000001a3, 0x00000000, 0x00000000, 0x80000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}

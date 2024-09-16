@@ -1,0 +1,218 @@
+// 14354 > 4548
+#test is_less_1
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 14354;
+    _from_int_to_decimal(number, &dec);
+    number = 4548;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// 354 < 4548
+#test is_less_2
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    number = 4548;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 1);
+}
+
+// 354 = 354
+#test is_less_3
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    number = 354;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// -354 < 54
+#test is_less_4
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -354;
+    _from_int_to_decimal(number, &dec);
+    number = 54;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 1);
+}
+
+// 354 > -1254
+#test is_less_5
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    number = -1254;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// -354 = -354
+#test is_less_6
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -354;
+    _from_int_to_decimal(number, &dec);
+    number = -354;
+    _from_int_to_decimal(number, &dec2);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// -35.4 = -35.4
+#test is_less_7
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -354;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 1);
+    number = -354;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 1);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// 35.4 < 485.965
+#test is_less_8
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 1);
+    number = 485965;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 3);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 1);
+}
+
+// 35.4 > 4.85965
+#test is_less_9
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 354;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 1);
+    number = 485965;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 5);
+   int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// 35.84 = 35.84
+#test is_less_10
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = 3584;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = 3584;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 2);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+// -35.84 < -3.84
+#test is_less_11
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -3584;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = -384;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 2);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 1);
+}
+
+// -35.84 > -113.84
+#test is_less_12
+{
+    _decimal dec, dec2;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    int number = -3584;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = -11384;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 2);
+    int compare = _is_less(dec, dec2);
+    ck_assert_int_eq(compare, 0);
+}
+
+#test is_less_13 
+{
+  _decimal a = {{0x23559a40, 0x00000002, 0x00000000, 0x000a0000}};
+  _decimal b = {{0x23559a40, 0x00000002, 0x00000000, 0x800a0000}};
+  int _ret = _is_less(a, b);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+}
+
+
+#test is_less_14
+{
+  _decimal a = {{0xb49ecf10, 0x00000000, 0x00000000, 0x000a0000}};
+  _decimal b = {{0xb49ecf10, 0x00000000, 0x00000000, 0x800a0000}};
+  int _ret = _is_greater_or_equal(a, b);
+  int expected_ret = 1;
+  ck_assert_int_eq(_ret, expected_ret);
+}
+
+
+#test is_less_15 
+{
+  _decimal a = {{0x79a92550, 0x00000001, 0x00000000, 0x000a0000}};
+  _decimal b = {{0x79a92550, 0x00000001, 0x00000000, 0x800a0000}};
+  int _ret = _is_less(a, b);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+}
+
+
+#test is_less_16
+{
+  _decimal a = {{0x4ca076e0, 0x00000000, 0x00000000, 0x800a0000}};
+  _decimal b = {{0x4ca076e0, 0x00000000, 0x00000000, 0x000a0000}};
+  int _ret = _is_less(a, b);
+  int expected_ret = 1;
+  ck_assert_int_eq(_ret, expected_ret);
+}

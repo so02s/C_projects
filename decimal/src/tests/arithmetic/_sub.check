@@ -1,0 +1,544 @@
+#include "_decimal.h"
+
+// 14354 - 4548 = 9806
+#test sub_1
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 14354;
+    _from_int_to_decimal(number, &dec);
+    number = 4548;
+    _from_int_to_decimal(number, &dec2);
+    number = 14354 - 4548;
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 546445 - (-65463) = 611908
+#test sub_2
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 546445;
+    _from_int_to_decimal(number, &dec);
+    number = -65463;
+    _from_int_to_decimal(number, &dec2);
+    number = 546445 - (-65463);
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -9765 - (-4148483) = 4138718
+#test sub_3
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -9765;
+    _from_int_to_decimal(number, &dec);
+    number = -4148483;
+    _from_int_to_decimal(number, &dec2);
+    number = -9765 - (-4148483);
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -564684 - 9663568 = -10228252
+#test sub_4
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -564684;
+    _from_int_to_decimal(number, &dec);
+    number = 9663568;
+    _from_int_to_decimal(number, &dec2);
+    number = -564684 - 9663568;
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+    int sign = get_sign(result);
+    ck_assert_int_eq(sign, 1); //result < 0
+}
+
+// 546 - 656876 = -656330
+#test sub_5
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 546;
+    _from_int_to_decimal(number, &dec);
+    number = 656876;
+    _from_int_to_decimal(number, &dec2);
+    number = 546 - 656876;
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+    int sign = get_sign(result);
+    ck_assert_int_eq(sign, 1); //result < 0
+}
+
+// -5484413 - (-35145) = -5449268
+#test sub_6
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -5484413;
+    _from_int_to_decimal(number, &dec);
+    number = -35145;
+    _from_int_to_decimal(number, &dec2);
+    number = -5484413 - (-35145);
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+    int sign = get_sign(result);
+    ck_assert_int_eq(sign, 1); //result < 0
+}
+
+// 0 - (-35145) = 35145
+#test sub_7
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 0;
+    _from_int_to_decimal(number, &dec);
+    number = -35145;
+    _from_int_to_decimal(number, &dec2);
+    number = 0 - (-35145);
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 0 - 35145 = -35145
+#test sub_8
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 0;
+    _from_int_to_decimal(number, &dec);
+    number = 35145;
+    _from_int_to_decimal(number, &dec2);
+    number = 0 - 35145;
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+    int sign = get_sign(result);
+    ck_assert_int_eq(sign, 1); //result < 0
+}
+
+// 35145 - 0 = 35145
+#test sub_9
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 35145;
+    _from_int_to_decimal(number, &dec);
+    number = 0;
+    _from_int_to_decimal(number, &dec2);
+    number = 35145 - 0;
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 35145 - 35145 = 0
+#test sub_10
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 35145;
+    _from_int_to_decimal(number, &dec);
+    number = 35145;
+    _from_int_to_decimal(number, &dec2);
+    number = 35145 - 35145;
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -35145 - (-35145) = 0
+#test sub_11
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -35145;
+    _from_int_to_decimal(number, &dec);
+    number = -35145;
+    _from_int_to_decimal(number, &dec2);
+    number = -35145 - (-35145);
+    _from_int_to_decimal(number, &answer);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 1435.4 - 45.48 = 1389.92
+#test sub_12
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 14354;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 1);
+    number = 4548;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 2);
+    number = 138992;
+    _from_int_to_decimal(number, &answer);
+    set_scale(&answer, 2);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 546.445 - (-6.5463) = 552.9913
+#test sub_13
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 546445;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 3);
+    number = -65463;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 4);
+    number = 5529913;
+    _from_int_to_decimal(number, &answer);
+    set_scale(&answer, 4);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -97.65 - (-4148.483) = 4050.833
+#test sub_14
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -9765;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = -4148483;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 3);
+    number = 4050833;
+    _from_int_to_decimal(number, &answer);
+    set_scale(&answer, 3);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -56468.4 - 966.3568 = -57434.7568
+#test sub_15
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -564684;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 1);
+    number = 9663568;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 4);
+    number = -574347568;
+    _from_int_to_decimal(number, &answer);
+    set_scale(&answer, 4);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+    int sign = get_sign(result);
+    ck_assert_int_eq(sign, 1); //result < 0
+}
+
+// 546 - 656.876 = -110.876
+#test sub_16
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 546;
+    _from_int_to_decimal(number, &dec);
+    number = 656876;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 3);
+    number = -110876;
+    _from_int_to_decimal(number, &answer);
+    set_scale(&answer, 3);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+    int sign = get_sign(result);
+    ck_assert_int_eq(sign, 1); //result < 0
+}
+
+// -54844.13 - (-35.145) = -54808.985
+#test sub_17
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -5484413;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = -35145;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 3);
+    number = -54808985;
+    _from_int_to_decimal(number, &answer);
+    set_scale(&answer, 3);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+    int sign = get_sign(result);
+    ck_assert_int_eq(sign, 1); //result < 0
+}
+
+// 0 - (-351.45) = 351.45
+#test sub_18
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 0;
+    _from_int_to_decimal(number, &dec);
+    number = -35145;
+    _from_int_to_decimal(number, &dec2);
+    set_scale(&dec2, 2);
+    number = 35145;
+    _from_int_to_decimal(number, &answer);
+    set_scale(&answer, 2);
+    res = _sub(dec, dec2, &result);
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+#test sub_19
+{
+  _decimal value_1 = {{0xffffffff, 0xffffffff, 0xffffffff, 0x00000000}};
+  _decimal value_2 = {{0, 0, 0, 0}};
+  _decimal res;
+  int _ret = _sub(value_2, value_1, &res);
+  _decimal expected = {{0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test sub_20
+{
+  _decimal value_1 = {{0xffffffff, 0xffffffff, 0xffffffff, 0x00000000}};
+  _decimal value_2 = {{0, 0, 0, 0}};
+  _decimal res;
+  int _ret = _sub(value_1, value_2, &res);
+  _decimal expected = {{0xffffffff, 0xffffffff, 0xffffffff, 0x00000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test sub_21
+{
+  _decimal value_1 = {{0x7b2b8df7, 0x1924a3e6, 0xfe75e08f, 0x00000000}};
+  _decimal value_2 = {{0x0c21051d, 0x185152f6, 0xfe762074, 0x00000000}};
+  _decimal res;
+  int _ret = _sub(value_1, value_2, &res);
+  _decimal expected = {{0x90f57726, 0xff2caf0f, 0x00003fe4, 0x80000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test sub_22 
+{
+  _decimal value_1 = {{0xcd489747, 0x7f3d112a, 0xfd6f20ee, 0x00000000}};
+  _decimal value_2 = {{0xbee1b331, 0x28878a44, 0xfd6f8b6c, 0x00000000}};
+  _decimal res;
+  int _ret = _sub(value_1, value_2, &res);
+  _decimal expected = {{0xf1991bea, 0xa94a7919, 0x00006a7d, 0x80000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test sub_23 
+{
+  _decimal value_1 = {{0x4874253f, 0x9861b511, 0xfbe5017d, 0x00000000}};
+  _decimal value_2 = {{0xcb02b84f, 0x40d8dd3a, 0xfbe5abe0, 0x00000000}};
+  _decimal res;
+  int _ret = _sub(value_1, value_2, &res);
+  _decimal expected = {{0x828e9310, 0xa8772829, 0x0000aa62, 0x80000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test sub_24 
+{
+  _decimal value_1 = {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};
+  _decimal value_2 = {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};
+  _decimal res;
+  int _ret = _sub(value_1, value_2, &res);
+  _decimal expected = {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test sub_25
+{
+  _decimal value_1 = {{0x00000001, 0x00000000, 0x00000000, 0x00000000}};
+  _decimal value_2 = {{0x00000001, 0x00000000, 0x00000000, 0x80000000}};
+  _decimal res;
+  int _ret = _sub(value_1, value_2, &res);
+  _decimal expected = {{0x00000002, 0x00000000, 0x00000000, 0x00000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test sub_26
+{
+  _decimal value_1 = {{0x00000001, 0x00000000, 0x00000000, 0x80000000}};
+  _decimal value_2 = {{0x00000001, 0x00000000, 0x00000000, 0x80000000}};
+  _decimal res;
+  int _ret = _sub(value_1, value_2, &res);
+  _decimal expected = {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test sub_27
+{
+  _decimal value_1 = {{0x00000001, 0x00000000, 0x00000000, 0x80000000}};
+  _decimal value_2 = {{0x00000001, 0x00000000, 0x00000000, 0x80000000}};
+  _decimal res;
+  int _ret = _sub(value_1, value_2, &res);
+  _decimal expected = {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test sub_28
+{
+  _decimal value_1 = {{0x397d4ea9, 0x4f12d677, 0x5afd9577, 0x80010000}};
+  _decimal value_2 = {{0xe35be7eb, 0x9f626ce7, 0x6c2a6080, 0x00010000}};
+  _decimal res;
+  int _ret = _sub(value_1, value_2, &res);
+  _decimal expected = {{0x1cd93694, 0xee75435f, 0xc727f5f7, 0x80010000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}

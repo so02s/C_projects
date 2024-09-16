@@ -1,0 +1,1042 @@
+#include "_decimal.h"
+
+#test add_1
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 123;
+    _from_int_to_decimal(number, &dec);
+    number = 2408;
+    _from_int_to_decimal(number, &dec2);
+    number = 123 + 2408;
+    _from_int_to_decimal(number, &answer);
+    res = _add(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+#test add_2
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 2408;
+    _from_int_to_decimal(number, &dec);
+    number = 123;
+    _from_int_to_decimal(number, &dec2);
+    number = 123 + 2408;
+    _from_int_to_decimal(number, &answer);
+    res = _add(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+
+#test add_3
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 100;
+    _from_int_to_decimal(number, &dec);
+    number = -200;
+    _from_int_to_decimal(number, &dec2);
+    number = 100 - 200;
+    _from_int_to_decimal(number, &answer);
+    res = _add(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 1);
+
+    //int compare = _compare(&result, &answer);
+    //ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+#test add_4
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -100;
+    _from_int_to_decimal(number, &dec);
+    number = 200;
+    _from_int_to_decimal(number, &dec2);
+    number = -100 + 200;
+    _from_int_to_decimal(number, &answer);
+    res = _add(dec, dec2, &result);
+
+    //int sign_1 = get_sign(result);
+    //ck_assert_int_eq(sign_1, 0);
+
+    //int compare = _compare(&result, &answer);
+    //ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+#test add_5
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -200;
+    _from_int_to_decimal(number, &dec);
+    number = -200;
+    _from_int_to_decimal(number, &dec2);
+    number = -200 + (-200);
+    _from_int_to_decimal(number, &answer);
+    res = _add(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 1);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+
+#test add_8
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 0;
+    _from_int_to_decimal(number, &dec);
+    _from_int_to_decimal(number, &dec2);
+    _from_int_to_decimal(number, &answer);
+    res = _add(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+#test add_9
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 10;
+    _from_int_to_decimal(number, &dec);
+    number = 11;
+    _from_int_to_decimal(number, &dec2);
+    number = 10 + 11;
+    _from_int_to_decimal(number, &answer);
+    res = _add(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+#test add_10
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 0;
+    _from_int_to_decimal(number, &dec);
+    number = 5;
+    _from_int_to_decimal(number, &dec2);
+    number = 0 + 5;
+    _from_int_to_decimal(number, &answer);
+    res = _add(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+#test add_11
+{
+    int res = 0;
+    _decimal dec, dec2, result, answer;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 5;
+    _from_int_to_decimal(number, &dec);
+    number = 0;
+    _from_int_to_decimal(number, &dec2);
+    number = 5 + 0;
+    _from_int_to_decimal(number, &answer);
+    res = _add(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+
+#test add_v1
+{
+  _decimal value_1 = {.bits[0] = 0b00000000000000000000000000001111,
+                         .bits[1] = 0b00000000000000000000000000001111,
+                         .bits[2] = 0b00000000000000000000000000001111,
+                         .bits[3] = 0b10000000000001010000000000000000};
+
+  _decimal value_2 = {.bits[0] = 0b00000000000000000000000000001010,
+                         .bits[1] = 0b00000000000000000000000000001010,
+                         .bits[2] = 0b00000000000000000000000000001010,
+                         .bits[3] = 0b00000000000001110000000000000000};
+  _decimal reference_result = {
+      .bits[0] = 1490,
+      .bits[1] = 1490,
+      .bits[2] = 1490,
+      .bits[3] = 0b10000000000001110000000000000000};
+  _decimal result = {0};
+  int sub_result = _add(value_1, value_2, &result);
+  ck_assert_int_eq(sub_result, 0);
+
+  ck_assert_int_eq(result.bits[0], reference_result.bits[0]);
+  ck_assert_int_eq(result.bits[1], reference_result.bits[1]);
+  ck_assert_int_eq(result.bits[2], reference_result.bits[2]);
+  ck_assert_int_eq(result.bits[3], reference_result.bits[3]);
+}
+
+// #2 сложение +v1 + v2 (v2 > v1)
+#test add_v2 
+{
+  _decimal value_1 = {.bits[0] = 0b00000000000000000000000000001010,
+                         .bits[1] = 0b00000000000000000000000000001010,
+                         .bits[2] = 0b00000000000000000000000000001010,
+                         .bits[3] = 0b00000000000001110000000000000000};
+
+  _decimal value_2 = {.bits[0] = 0b00000000000000000000000000001111,
+                         .bits[1] = 0b00000000000000000000000000001111,
+                         .bits[2] = 0b00000000000000000000000000001111,
+                         .bits[3] = 0b10000000000001010000000000000000};
+  _decimal reference_result = {
+      .bits[0] = 1490,
+      .bits[1] = 1490,
+      .bits[2] = 1490,
+      .bits[3] = 0b10000000000001110000000000000000};
+  _decimal result = {0};
+  int sub_result = _add(value_1, value_2, &result);
+  ck_assert_int_eq(sub_result, 0);
+
+  ck_assert_int_eq(result.bits[0], reference_result.bits[0]);
+  ck_assert_int_eq(result.bits[1], reference_result.bits[1]);
+  ck_assert_int_eq(result.bits[2], reference_result.bits[2]);
+  ck_assert_int_eq(result.bits[3], reference_result.bits[3]);
+
+}
+
+
+
+
+// #6 сложение - переполнение мантиссы
+#test add_v6 
+{
+  _decimal value_1;
+  _decimal value_2;
+  for (int i = 0; i < 4; i++)
+{
+    value_1.bits[i] = 0;
+    value_2.bits[i] = 0;
+  }
+  value_1.bits[2] = 0xffffffff;
+  value_2.bits[2] = 0xffffffff;
+  set_scale(&value_1, 0);
+  set_scale(&value_2, 0);
+  _decimal result;
+  ck_assert_int_eq(_add(value_1, value_2, &result), 1);
+}
+
+
+// #7 сложение
+#test add_v7 
+{
+  _decimal value_1;
+  _decimal value_2;
+  for (int i = 0; i < 4; i++)
+{
+    value_1.bits[i] = 0;
+    value_2.bits[i] = 0;
+  }
+  set_scale(&value_1, 5);
+  set_scale(&value_2, 5);
+  value_1.bits[2] = 0xffffffff;
+  value_2.bits[2] = 0xffffffff;
+  value_1.bits[3] = 0x80000000;
+  value_2.bits[3] = 0x80000000;
+  _decimal result;
+  ck_assert_int_eq(_add(value_1, value_2, &result), 2);
+}
+
+
+#test add_v8 
+{
+  _decimal value_1 = {.bits[0] = 0x00000001,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x80000000};  // -1
+
+  _decimal value_2 = {.bits[0] = 0x00000001,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x00000000};  // 1
+
+  _decimal reference_result = {.bits[0] = 0x00000000,
+                                  .bits[1] = 0x00000000,
+                                  .bits[2] = 0x00000000,
+                                  .bits[3] = 0x00000000};  // 0
+  _decimal result = {0};
+  int sub_result = _add(value_1, value_2, &result);
+  ck_assert_int_eq(sub_result, 0);
+  ck_assert_int_eq(result.bits[0], reference_result.bits[0]);
+  ck_assert_int_eq(result.bits[1], reference_result.bits[1]);
+  ck_assert_int_eq(result.bits[2], reference_result.bits[2]);
+  ck_assert_int_eq(result.bits[3], reference_result.bits[3]);
+
+}
+
+
+#test add_v9 
+{
+  _decimal value_1 = {{0x9013129f, 0x36ce5141, 0xfdf280b8, 0x80000000}};
+  _decimal value_2 = {{0xbd448c27, 0xa4c37397, 0xfdf2974f, 0x00000000}};
+  _decimal res;
+  int _ret = _add(value_1, value_2, &res);
+  _decimal expected = {{0x2d317988, 0x6df52256, 0x00001697, 0x00000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v10 
+{
+  _decimal value_1 = {{0xc3469ef3, 0xaa8d2f82, 0xdcd8dc52, 0x80000000}};
+  _decimal value_2 = {{0x8935e02c, 0xe5931b86, 0xdcda5f33, 0x00000000}};
+  _decimal res;
+  int _ret = _add(value_1, value_2, &res);
+  _decimal expected = {{0xc5ef4139, 0x3b05ec03, 0x000182e1, 0x00000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v11 
+{
+  _decimal a = {{0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
+  _decimal b = {{0xffffffff, 0xffffffff, 0xffffffff, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v12 
+{
+  _decimal a = {{0x32026253, 0x06d9ca28, 0xffbe5017, 0x80000000}};
+  _decimal b = {{0xf7a89184, 0xf4986e72, 0xffbe52e9, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xc5a62f31, 0xedbea44a, 0x000002d2, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v13 
+{
+  _decimal a = {{0x261a399b, 0x4b5bafba, 0xfd2d70fd, 0x80000000}};
+  _decimal b = {{0xa43e40b6, 0x828cbef0, 0xfd2d900d, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x7e24071b, 0x37310f36, 0x00001f10, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v14 
+{
+  _decimal a = {{0xb03937df, 0xa46af3c4, 0xf9d78228, 0x80000000}};
+  _decimal b = {{0x37cda477, 0xee4a5ac7, 0xf9d7c5ee, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x87946c98, 0x49df6702, 0x000043c6, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v15 
+{
+  _decimal a = {{0x5a7e5b63, 0x6b16da52, 0xf26694c4, 0x80000000}};
+  _decimal b = {{0x45e62088, 0xa38eddcd, 0xf2672a6f, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xeb67c525, 0x3878037a, 0x000095ab, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v16 
+{
+  _decimal a = {{0x48a21e4f, 0xd1d9b2ad, 0xee8d461d, 0x80000000}};
+  _decimal b = {{0xc8c6a753, 0xf87d5689, 0xee8e0624, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x80248904, 0x26a3a3dc, 0x0000c007, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v17 
+{
+  _decimal a = {{0x30d1ccdf, 0x5add7dd1, 0xe96b87ea, 0x80000000}};
+  _decimal b = {{0x21f205b7, 0x1465f785, 0xe96c806c, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xf12038d8, 0xb98879b3, 0x0000f881, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v18 
+{
+  _decimal a = {{0xe10b04bf, 0xff487195, 0xe3430a12, 0x80000000}};
+  _decimal b = {{0x59bfaa2f, 0x02b0524c, 0xe344465b, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x78b4a570, 0x0367e0b6, 0x00013c48, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v19 
+{
+  _decimal a = {{0x9d2c6557, 0x5f317fc8, 0xdfab6b55, 0x80000000}};
+  _decimal b = {{0xe4f79f75, 0x63065c95, 0xdfaccf26, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x47cb3a1e, 0x03d4dccd, 0x000163d1, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v20 
+{
+  _decimal a = {{0x5359b193, 0xe15b80c4, 0xdacb5d0a, 0x80000000}};
+  _decimal b = {{0x467a6c54, 0x8a568f1e, 0xdaccf683, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xf320bac1, 0xa8fb0e59, 0x00019978, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v21 
+{
+  _decimal a = {{0x156f2687, 0x1f039c2e, 0xd87c2dda, 0x80000000}};
+  _decimal b = {{0xfb678a01, 0x23b27128, 0xd87de0bd, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xe5f8637a, 0x04aed4fa, 0x0001b2e3, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v22 
+{
+  _decimal a = {{0x0986fdcf, 0x638581c0, 0xd5eb4ec0, 0x80000000}};
+  _decimal b = {{0xa7fd3933, 0xb1a6c1a6, 0xd5ed1de0, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x9e763b64, 0x4e213fe6, 0x0001cf20, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v23 
+{
+  _decimal a = {{0xcb9c72c3, 0xa12d9d29, 0xd39c1f8f, 0x80000000}};
+  _decimal b = {{0x5cea56e0, 0x4b02a3b1, 0xd39e081a, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x914de41d, 0xa9d50687, 0x0001e88a, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v24 
+{
+  _decimal a = {{0x55bb7107, 0xfa3ce134, 0xd04630ba, 0x80000000}};
+  _decimal b = {{0xf079baa1, 0xb6c03f87, 0xd0483dfb, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x9abe499a, 0xbc835e53, 0x00020d40, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v25 
+{
+  _decimal a = {{0x7e6bde70, 0x2ca6fe90, 0x60e5e176, 0x00000000}};
+  _decimal b = {{0xfa62dbd3, 0x06d594c6, 0x8ee6f0ba, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x78ceba43, 0x337c9357, 0xefccd230, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v26 
+{
+  _decimal a = {{0xbe294208, 0x16851bbf, 0x4e6a59be, 0x00000000}};
+  _decimal b = {{0x93a5ea43, 0xe27e1652, 0x77d252b8, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x51cf2c4b, 0xf9033212, 0xc63cac76, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v27 
+{
+  _decimal a = {{0x53ee80b7, 0xd3a6b915, 0x2e53e373, 0x00000000}};
+  _decimal b = {{0x0bf338a9, 0x919f13ac, 0x4fc04ea1, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x5fe1b960, 0x6545ccc1, 0x7e143215, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v28 
+{
+  _decimal a = {{0x2ad549d5, 0x3399a5ed, 0x1f7060ca, 0x00000000}};
+  _decimal b = {{0x0e85aef5, 0xfb750a40, 0x3d289675, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x395af8ca, 0x2f0eb02d, 0x5c98f740, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v29 
+{
+  _decimal a = {{0x3ce33a26, 0x3dc0f65d, 0x6553c0b1, 0x00010000}};
+  _decimal b = {{0xc2c134ef, 0x551e66b2, 0x228d43df, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x48d7edf3, 0xa81818ef, 0x2caf3d8a, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v30 
+{
+  _decimal a = {{0x53a5c322, 0x6a88b0e2, 0x3ef64b08, 0x80010000}};
+  _decimal b = {{0x5fa73c7d, 0x81ed660d, 0x8c5b9c04, 0x00010000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x0c01795b, 0x1764b52b, 0x4d6550fc, 0x00010000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v31 
+{
+  _decimal a = {{0xe42ec062, 0x12d25821, 0xe34056c2, 0x80010000}};
+  _decimal b = {{0xdc3d9846, 0x4f5536e0, 0x40cd6eb0, 0x80010000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xe00ad5aa, 0xa36a5b19, 0x1d3493be, 0x80000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v32 
+{
+  _decimal a = {{0x58d1f21d, 0xcafc2b6a, 0x26a401cf, 0x80000000}};
+  _decimal b = {{0xf706ba3d, 0x59015fe3, 0x1a5aeb4e, 0x80000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x4fd8ac5a, 0x23fd8b4e, 0x40feed1e, 0x80000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v33 
+{
+  _decimal a = {{0x45a97d83, 0xb3e8d429, 0x42e0bbd3, 0x80000000}};
+  _decimal b = {{0xe9520ed9, 0x6cf8d2dc, 0x3d9df925, 0x80000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x2efb8c5c, 0x20e1a706, 0x807eb4f9, 0x80000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v34 
+{
+  _decimal a = {{0xee9567e5, 0x024b8221, 0x19ab91d5, 0x00190000}};
+  _decimal b = {{0xd2f69104, 0xda4c021e, 0x19a80345, 0x80020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xd2f55aaf, 0xda4c021e, 0x19a80345, 0x80020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v35 
+{
+  _decimal a = {{0xfebb5d52, 0xe6a1269c, 0x0291282e, 0x001c0000}};
+  _decimal b = {{0xd2f55ae2, 0xda4c021e, 0x19a80345, 0x80020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xd2f55ada, 0xda4c021e, 0x19a80345, 0x80020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v36 
+{
+  _decimal a = {{0xeea186ec, 0x024b8221, 0x19ab91d5, 0x001b0000}};
+  _decimal b = {{0xd2f55df4, 0xda4c021e, 0x19a80345, 0x80020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xd2f55ada, 0xda4c021e, 0x19a80345, 0x80020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v37 
+{
+  _decimal a = {{0x18105f3c, 0x0365c14e, 0x19ab91d5, 0x00180000}};
+  _decimal b = {{0xd3017882, 0xda4c021e, 0x19a80345, 0x80020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xd2f5592c, 0xda4c021e, 0x19a80345, 0x80020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v38 
+{
+  _decimal a = {{0xee969df3, 0x024b8221, 0x19ab91d5, 0x00070000}};
+  _decimal b = {{0x1f0f2056, 0x43fd1acf, 0x19a81416, 0x80020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x453a96a7, 0x858d8618, 0x19a80343, 0x80020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v39 
+{
+  _decimal a = {{0x96ef3247, 0x026a8e33, 0x19ab91d5, 0x000d0000}};
+  _decimal b = {{0x47a9af99, 0xdb661a2f, 0x19a80345, 0x80020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x1ea69bf1, 0xda4bdb03, 0x19a80345, 0x80020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v40 
+{
+  _decimal a = {{0x88a6d682, 0x0d51f9db, 0x19ab91d5, 0x000e0000}};
+  _decimal b = {{0x11e02baa, 0xda6837ba, 0x19a80345, 0x80020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xa753dfb3, 0xda4bfe35, 0x19a80345, 0x80020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v41 
+{
+  _decimal a = {{0xeb4fbc41, 0xf1a7e697, 0x0291282e, 0x001c0000}};
+  _decimal b = {{0xd2f55ae2, 0xda4c021e, 0x19a80345, 0x80020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xd2f55ada, 0xda4c021e, 0x19a80345, 0x80020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v42 
+{
+  _decimal a = {{0x7060e207, 0x50d28ee3, 0x19ab91d9, 0x001c0000}};
+  _decimal b = {{0xd2f55b29, 0xda4c021e, 0x19a80345, 0x80020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xd2f55ada, 0xda4c021e, 0x19a80345, 0x80020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v43 
+{
+  _decimal a = {{0x0ab383ae, 0xc92457c9, 0x6e693f8d, 0x00000000}};
+  _decimal b = {{0x87b4465a, 0x9db7e6b2, 0x6e597ef7, 0x80000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x82ff3d54, 0x2b6c7116, 0x000fc096, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v44 
+{
+  _decimal a = {{0x0e466d22, 0x4eeacc52, 0x430c1ec1, 0x00000000}};
+  _decimal b = {{0x05fc5727, 0x1658d098, 0x42fe3b6a, 0x80000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x084a15fb, 0x3891fbba, 0x000de357, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v45 
+{
+  _decimal a = {{0x88eaedc6, 0x279e4927, 0x3157b4f6, 0x00000000}};
+  _decimal b = {{0xc66b9000, 0x036e9594, 0x314a9479, 0x80000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xc27f5dc6, 0x242fb392, 0x000d207d, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v46 
+{
+  _decimal a = {{0xc45a3329, 0xa91277f5, 0xb9847d8d, 0x00010000}};
+  _decimal b = {{0xa65dbf1a, 0xacd792b8, 0xb90e7564, 0x80010000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x1dfc740f, 0xfc3ae53d, 0x00760828, 0x00010000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v47 
+{
+  _decimal a = {{0xbf8fbd1e, 0x5dcbb680, 0x2b97fed9, 0x80020000}};
+  _decimal b = {{0x9fa8254c, 0xe95b9982, 0x2fe2af4a, 0x00020000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xe018682e, 0x8b8fe301, 0x044ab071, 0x00020000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v48 
+{
+  _decimal a = {{0xdc49d807, 0xd128cfbd, 0x1ba2700d, 0x80000000}};
+  _decimal b = {{0x0009e861, 0x59effbb1, 0x1bac415c, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x23c0105a, 0x88c72bf3, 0x0009d14e, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v49 
+{
+  _decimal a = {{0x1b64f887, 0x3f7d00ab, 0x3444676b, 0x80000000}};
+  _decimal b = {{0x20d35681, 0xa0c69094, 0x344d29a0, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x056e5dfa, 0x61498fe9, 0x0008c235, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v50 
+{
+  _decimal a = {{0x4e97f04f, 0xf253172a, 0x4a557fae, 0x80000000}};
+  _decimal b = {{0xee3273d3, 0x759175f4, 0x4a5d4f08, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x9f9a8384, 0x833e5eca, 0x0007cf59, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v51 
+{
+  _decimal a = {{0x4d66c64f, 0x856e0311, 0x6b2d742b, 0x80000000}};
+  _decimal b = {{0x19e9b153, 0x295a3c79, 0x6b33da0e, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xcc82eb04, 0xa3ec3967, 0x000665e2, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v52 
+{
+  _decimal a = {{0x4c359c4f, 0x1888eef8, 0x8c0568a8, 0x80000000}};
+  _decimal b = {{0x45a0eed3, 0xdd2302fd, 0x8c0a6513, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xf96b5284, 0xc49a1404, 0x0004fc6b, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v53 
+{
+  _decimal a = {{0xf7ab5547, 0x8b3121dc, 0x9ae74370, 0x80000000}};
+  _decimal b = {{0x296ff6b1, 0x7299fcf1, 0x9aeb9c12, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x31c4a16a, 0xe768db14, 0x000458a1, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v54 
+{
+  _decimal a = {{0x8ee311b7, 0x4bbaccac, 0xb074fbe2, 0x80000000}};
+  _decimal b = {{0xe620370d, 0x3095bf37, 0xb078674e, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0x573d2556, 0xe4daf28b, 0x00036b6b, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}
+
+
+#test add_v55 
+{
+  _decimal a = {{0xdd78afd7, 0x3a6ac4ce, 0xd7756e36, 0x80000000}};
+  _decimal b = {{0xda09d015, 0xf6142af4, 0xd7772c64, 0x00000000}};
+  _decimal res;
+  int _ret = _add(a, b, &res);
+  _decimal expected = {{0xfc91203e, 0xbba96625, 0x0001be2e, 0x00000000}};
+  int expected_ret = 0;
+  // int mem_cmp = memcmp(res.bits,expected.bits,4*sizeof(uint32_t));
+  // printf("%s",(mem_cmp)?"Different\n":"Same\n");
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(expected.bits, res.bits, 4 * sizeof(uint32_t));
+}

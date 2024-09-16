@@ -1,0 +1,239 @@
+
+
+#test floor_1
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  7.03, res = 7;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_2
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  7.64, res = 7;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_3
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  0.12, res = 0;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_4
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  -0.12, res = -1;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_5
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  -7.1, res = -8;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_6
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  -7.6, res = -8;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_7
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  -0.543, res = -1;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_8
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  0.543, res = 0;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_9
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  0.49, res = 0;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_10
+{
+    int check = 0;
+    _decimal dec, dec2, resd;
+    null_decimal(&dec);
+    null_decimal(&dec2);
+    float number =  -0.49, res = -1;
+    _from_float_to_decimal(number, &dec);
+    _from_float_to_decimal(res, &dec2);
+    check = _floor(dec, &resd);
+    int compare = _compare(&dec2, &resd);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(check, 0);
+}
+
+#test floor_11
+{
+    _decimal a = {{0xff57162f, 0x174ff0e4, 0x3e2129cb, 0x001b0000}};
+  _decimal res;
+  _decimal expected = {{0x00000013, 0x00000000, 0x00000000, 0x00000000}};
+  int _ret = _floor(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+#test floor_12
+{
+    _decimal a = {{0xb8bdf40f, 0x911be896, 0x3e2129d0, 0x00110000}};
+  _decimal res;
+  _decimal expected = {{0xc4e0c68d, 0x0000002c, 0x00000000, 0x00000000}};
+  int _ret = _floor(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+#test floor_13
+{
+    _decimal a = {{0xd6c3369f, 0x35a5e618, 0x3e2129d2, 0x800e0000}};
+  _decimal res;
+  _decimal expected = {{0x0e0c3971, 0x0000aee1, 0x00000000, 0x80000000}};
+  int _ret = _floor(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+#test floor_14
+{
+  _decimal a = {{0x44ff0000, 0x67732363, 0x5ea68b9c, 0x000f0000}};
+  _decimal res;
+  _decimal expected = {{0x4accef76, 0x00001aa4, 0x00000000, 0x00000000}};
+  int _ret = _floor(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+#test floor_15
+{
+    _decimal a = {{0x57e3f000, 0x3a7b1eb0, 0x000100ad, 0x801c0000}};
+  _decimal res;
+  _decimal expected = {{0x00000001, 0x00000000, 0x00000000, 0x80000000}};
+  int _ret = _floor(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+#test floor_16
+{
+    _decimal a = {{0xc21f0000, 0x84e3bbf7, 0x723bc2fa, 0x00090000}};
+  _decimal res;
+  _decimal expected = {{0x2d459980, 0xeaa0fff5, 0x00000001, 0x00000000}};
+  int _ret = _floor(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+#test floor_17
+{
+    _decimal a = {{0x967f0000, 0x395e997e, 0x78c2d56f, 0x00070000}};
+  _decimal res;
+  _decimal expected = {{0x6173b600, 0x9a7bfb83, 0x000000ca, 0x00000000}};
+  int _ret = _floor(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+#test floor_18
+{
+   _decimal a = {{0xd1281800, 0x588f9004, 0x00001787, 0x001c0000}};
+  _decimal res;
+  _decimal expected = {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};
+  int _ret = _floor(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}

@@ -1,0 +1,215 @@
+
+#include "_decimal.h"
+// тесты работают
+#test from_float_to_decimal_regular
+{
+    _decimal *dec = init_decimal();
+    int code;
+    float flt = 10.0;
+    for (int power = 0; power < 29; power++){
+        
+        code = _from_float_to_decimal(pow(flt,power),dec);
+
+        ck_assert_int_eq(code,0);
+        
+    }
+    free(dec);
+}
+
+#test _from_decimal_to_float_1
+{
+    _decimal var;
+    float value = 0;
+    _from_float_to_decimal(5.0, &var);
+    _from_decimal_to_float(var, &value);
+    ck_assert_float_eq_tol(5.0, value, 10e-5);
+}
+
+#test _from_decimal_to_float_2
+{
+    for (int i = 0; i < 30; i++){
+        float n = get_rand_float(-8388608, 8388608);
+        _decimal var;
+        float value = 0;
+        _from_float_to_decimal(n, &var);
+        _from_decimal_to_float(var, &value);
+        ck_assert_float_eq_tol(n, value, 10);
+    }
+}
+
+#test _from_decimal_to_float_3
+{
+    for (int i = 0; i < 30; i++){
+        float n = get_rand_float(-1e-6 / 3, 1e-6 / 3);
+        _decimal var;
+        float value = 0;
+        _from_float_to_decimal(n, &var);
+        _from_decimal_to_float(var, &value);
+        ck_assert_float_eq_tol(n, value, 10);
+    }
+}
+
+#test _from_decimal_to_float_4
+{
+    _decimal var;
+    int c = _from_decimal_to_float(var, NULL);
+    ck_assert_int_eq(c, 1);
+}
+
+#test _from_decimal_to_float_5
+{
+    _decimal var = {{0, 0, 0, 0}};
+    _negate(var, &var);
+    float n = -0.0;
+    float value = 0;
+    _from_float_to_decimal(n, &var);
+    _from_decimal_to_float(var, &value);
+    ck_assert_float_eq_tol(n, value, 10);
+}
+
+#test _from_decimal_to_float_6
+{
+  _decimal a = {{0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
+  uint32_t u_fl = 0xEF800000;
+  float toFloat = 0.0;
+  float expectedFloat = 0.0;
+  memcpy(&expectedFloat, &u_fl, sizeof(uint32_t));
+  int _ret = _from_decimal_to_float(a, &toFloat);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_float_eq(expectedFloat, toFloat);
+}
+
+
+#test _from_decimal_to_float_7 
+{
+  _decimal a = {{0x270ae101, 0x070acf57, 0xc4a2bb63, 0x80190000}};
+  uint32_t u_fl = 0xC5BE2CA2;
+  float toFloat = 0.0;
+  float expectedFloat = 0.0;
+  memcpy(&expectedFloat, &u_fl, sizeof(uint32_t));
+  int _ret = _from_decimal_to_float(a, &toFloat);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_float_eq(expectedFloat, toFloat);
+}
+
+
+#test _from_decimal_to_float_8 
+{
+  _decimal a = {{0x29b6f8a3, 0xff6dd0e9, 0x0effcd58, 0x80190000}};
+  uint32_t u_fl = 0xC3E81A0F;
+  float toFloat = 0.0;
+  float expectedFloat = 0.0;
+  memcpy(&expectedFloat, &u_fl, sizeof(uint32_t));
+  int _ret = _from_decimal_to_float(a, &toFloat);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_float_eq(expectedFloat, toFloat);
+}
+
+
+#test _from_decimal_to_float_9 
+{
+  _decimal a = {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};
+  uint32_t u_fl = 0x00000000;
+  float toFloat = 0.0;
+  float expectedFloat = 0.0;
+  memcpy(&expectedFloat, &u_fl, sizeof(uint32_t));
+  int _ret = _from_decimal_to_float(a, &toFloat);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_float_eq(expectedFloat, toFloat);
+}
+
+#test _from_float_to_decimal_0 
+{
+  _decimal res;
+  float fromFloat = -7648904.0;
+  int _ret = _from_float_to_decimal(fromFloat, &res);
+  _decimal expected = {{7648904, 0, 0, 0x80000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+
+#test _from_float_to_decimal_1 
+{
+  _decimal res;
+  float fromFloat = 1234567.0;
+  int _ret = _from_float_to_decimal(fromFloat, &res);
+  _decimal expected = {{1234567, 0, 0, 0x00000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+
+#test _from_float_to_decimal_2  
+{
+  _decimal res;
+  float fromFloat = -1234567.0;
+  int _ret = _from_float_to_decimal(fromFloat, &res);
+  _decimal expected = {{1234567, 0x00000000, 0x00000000, 0x80000000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+
+#test _from_float_to_decimal_3 
+{
+  _decimal res;
+  float fromFloat = 1.568993E-19;
+  int _ret = _from_float_to_decimal(fromFloat, &res);
+  _decimal expected = {{0x0017f0e1, 0x00000000, 0x00000000, 0x00190000}};
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+#test _from_float_to_decimal_4
+{
+  _decimal value_2 = {0};
+  _decimal test = {0};
+  float a = 0.8;
+  float b = 0.0;
+  set_scale(&test, 1);
+  int res = _from_float_to_decimal(a, &value_2);
+  _from_decimal_to_float(value_2, &b);
+  ck_assert_uint_eq(res, 0);
+  ck_assert_uint_eq(get_scale(&value_2), get_scale(&test));
+  ck_assert_float_eq(a, b);
+}
+
+
+  // number = 1234365.0 / 2408.0;
+  // _from_float_to_decimal(number, &answer);
+  // number = 2408.0 / 123.0;
+  // _from_float_to_decimal(number, &answer);
+  // number = 123456 / 789;
+  // _from_float_to_decimal(number, &answer);
+/*
+    number = 100 / -200;
+    _from_float_to_decimal(number, &answer);
+    number = -100 / 200;
+    _from_float_to_decimal(number, &answer);
+    number = 10.0 / 11.0;
+    _from_float_to_decimal(number, &answer);
+
+    */
+
+// 10.0 / 11.0 = 0.909090909090909090909090...
+#test _from_float_to_decimal_5
+{
+  _decimal value_2 = {0};
+  _decimal test = {0};
+  float number = 10.0 / 11.0, b = 0;
+  set_scale(&test, 7);
+  int res = _from_float_to_decimal(number, &value_2);
+  _from_decimal_to_float(value_2, &b);
+  ck_assert_uint_eq(res, 0);
+  ck_assert_uint_eq(get_scale(&value_2), get_scale(&test));
+  ck_assert_float_eq_tol(number, b, 6);
+}

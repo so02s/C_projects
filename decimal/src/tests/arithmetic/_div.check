@@ -1,0 +1,696 @@
+#include "_decimal.h"
+
+
+// 0/x = 0
+#test div_test
+{
+  int res = 0;
+  _decimal dec = {0}, dec2 = {0}, result = {0}, answer ={0};
+  float number = 0;
+  _from_float_to_decimal(number, &dec);
+  number = 2408;
+  _from_float_to_decimal(number, &dec2);
+  res = _div(dec, dec2, &result);
+
+  int sign_1 = get_sign(result);
+  ck_assert_int_eq(sign_1, 0);
+
+  int compare = _compare(&result, &answer);
+  ck_assert_int_eq(compare, 0);
+  ck_assert_int_eq(res, 0);
+}
+
+  // 1234365 / 2408 = 512.6100498338870431893687707641
+#test div_1
+{
+  int res = 0;
+  _decimal dec = {0}, dec2 = {0}, result = {0};
+  _decimal answer = {{0b01011101011000001000100000010100,
+                        0b01010110110010011011000111011011,
+                        0b10100101101000100001110000001000,
+                        0b00000000000110100000000000000000}};
+  float number = 1234365;
+  _from_float_to_decimal(number, &dec);
+  number = 2408;
+  _from_float_to_decimal(number, &dec2);
+  res = _div(dec, dec2, &result);
+
+  int sign_1 = get_sign(result);
+  ck_assert_int_eq(sign_1, 0);
+
+  int compare = _compare(&result, &answer);
+  ck_assert_int_eq(compare, 0);
+  ck_assert_int_eq(res, 0);
+}
+
+// 2408/123 = 19.577235772357723577235772357
+#test div_2
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0};
+    _decimal answer = {{
+      0b11111100010110111001001111000110,
+      0b11001000010101011100011000110111,
+      0b00111111010000011110100011101101,
+      0b00000000000110110000000000000000}};
+   
+    float number = 2408;
+    _from_float_to_decimal(number, &dec);
+    number = 123;
+    _from_float_to_decimal(number, &dec2);
+    res = _div(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 100 / -200 = -0.5
+#test div_3
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0},
+    answer ={{
+      0b00000000000000000000000000000101,
+      0b00000000000000000000000000000000,
+      0b00000000000000000000000000000000,
+      0b10000000000000010000000000000000
+    }};
+    
+    float number = 100;
+    _from_float_to_decimal(number, &dec);
+    number = -200;
+    _from_float_to_decimal(number, &dec2);
+    res = _div(dec, dec2, &result);
+
+    unsigned sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 1);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -100 / 200 = -0.5
+#test div_4
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0},
+    answer ={{
+      0b00000000000000000000000000000101,
+      0b00000000000000000000000000000000,
+      0b00000000000000000000000000000000,
+      0b10000000000000010000000000000000
+    }};
+    float number = -100;
+    _from_float_to_decimal(number, &dec);
+    number = 200;
+    _from_float_to_decimal(number, &dec2);
+    res = _div(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 1);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -200 / -200 = 1
+#test div_5
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0}, answer ={0};
+    float number = -200;
+    _from_float_to_decimal(number, &dec);
+    number = -200;
+    _from_float_to_decimal(number, &dec2);
+    number = -200 / -200;
+    _from_float_to_decimal(number, &answer);
+    res = _div(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+
+// 2147483647 / 1 = 2147483647
+#test div_6
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0}, answer ={0};
+    float number = 2147483647;
+    _from_float_to_decimal(number, &dec);
+    number = 1;
+    _from_float_to_decimal(number, &dec2);
+    number = 2147483647 / 1;
+    _from_float_to_decimal(number, &answer);
+    res = _div(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -2147483647 / -1 = 2147483647
+#test div_7
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0}, answer ={0};
+    float number = -2147483647;
+    _from_float_to_decimal(number, &dec);
+    number = -1;
+    _from_float_to_decimal(number, &dec2);
+    number = -2147483647 / -1;
+    _from_float_to_decimal(number, &answer);
+    res = _div(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 2147483647 / -1 = -2147483647
+#test div_8
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0}, answer ={0};
+    float number = 2147483647;
+    _from_float_to_decimal(number, &dec);
+    number = -1;
+    _from_float_to_decimal(number, &dec2);
+    number = 2147483647 / -1;
+    _from_float_to_decimal(number, &answer);
+    res = _div(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 1);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 10/11 = 0.9090909090909090909090909090
+#test div_9
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0},
+    answer = {{
+      0b10011010001011101000101110100010,
+      0b01001111110001001000110111001100,
+      0b00011101010111111101001011100001,
+      0b00000000000111000000000000000000}};
+    float number = 10;
+    _from_float_to_decimal(number, &dec);
+    number = 11;
+    _from_float_to_decimal(number, &dec2);
+    res = _div(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -2147483647 / 1 = -2147483647
+#test div_10
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0}, answer ={0};
+    float number = -2147483647;
+    _from_float_to_decimal(number, &dec);
+    number = 1;
+    _from_float_to_decimal(number, &dec2);
+    number = -2147483647 / 1;
+    _from_float_to_decimal(number, &answer);
+    res = _div(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 1);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+
+// x/0
+#test div_11
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0};
+    float number = 5;
+    _from_float_to_decimal(number, &dec);
+    number = 0;
+    _from_float_to_decimal(number, &dec2);
+    res = _div(dec, dec2, &result);
+    ck_assert_int_eq(res, 3);
+}
+
+//1000/20 =  50
+#test div_12
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0}, answer ={0};
+    float number = 1000;
+    _from_float_to_decimal(number, &dec);
+    number = 20;
+    _from_float_to_decimal(number, &dec2);
+    number = 1000 / 20;
+    _from_float_to_decimal(number, &answer);
+    res = _div(dec, dec2, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+
+// 123456/789 = 156.47148288973384030418250951
+#test div_13
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0},
+     answer = {{
+      0b11010111000111100010110011000111,
+      0b01100111110001111001100001000010,
+      0b00110010100011110000010010001000,
+      0b00000000000110100000000000000000
+     }};
+    float number = 123456;
+    _from_float_to_decimal(number, &dec);
+    number = 789;
+    _from_float_to_decimal(number, &dec2);
+    res = _div(dec, dec2, &result);
+
+    unsigned sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 7/7 = 1
+#test div_14
+{
+    int res = 0;
+    _decimal dec = {0}, dec2 = {0}, result = {0}, answer ={0};
+    float number = 7;
+    _from_float_to_decimal(number, &dec);
+    number = 7;
+    _from_float_to_decimal(number, &dec2);
+    number = 7 / 7;
+    _from_float_to_decimal(number, &answer);
+    res = _div(dec, dec2, &result);
+
+    unsigned sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+#test _div_normal
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  value_1.bits[0] = 150;
+  value_2.bits[0] = 10;
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], 15);
+  value_1.bits[0] = 4294967295;
+  value_2.bits[0] = 123478698;
+  set_scale(&value_2, 5);
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(get_scale(&result), 22);
+  value_1.bits[0] = 4294967294;
+  value_1.bits[1] = 1;
+  value_2.bits[0] = 2;
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], 4294867296);
+}
+
+
+#test _div_scale
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  value_1.bits[0] = 150;
+  value_2.bits[0] = 2;
+  set_scale(&value_2, 1);
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], 750);
+}
+
+
+#test _div_zero
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  value_1.bits[0] = 150;
+  value_2.bits[0] = 0;
+  int result1 = _div(value_1, value_2, &result);
+  ck_assert_int_eq(result1, 3);
+  set_sign(&value_2, 1);
+  result1 = _div(value_1, value_2, &result);
+  ck_assert_int_eq(result1, 3);
+}
+
+
+#test _div_negative
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  _decimal test = {0};
+  value_1.bits[0] = 547;
+  value_2.bits[0] = 5;
+  test.bits[0] = 1094;
+  set_sign(&value_2, 1);
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], test.bits[0]);
+  int pow = get_scale(&result);
+  ck_assert_int_eq(pow, 1);
+  ck_assert_int_eq(get_sign(result), 1);
+  _decimal value_3 = {{20}};
+  _decimal value_4 = {{5}};
+  set_sign(&value_4, 1);
+  test.bits[0] = 4;
+  _div(value_3, value_4, &result);
+  ck_assert_int_eq(result.bits[0], test.bits[0]);
+  ck_assert_int_eq(get_sign(result), 1);
+}
+
+
+#test _div_pi
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  _decimal test = {0};
+  value_1.bits[0] = 22;
+  value_2.bits[0] = 7;
+  test.bits[0] = 3297921316;
+  test.bits[1] = 208949406;
+  test.bits[2] = 1703746271;
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], test.bits[0]);
+  ck_assert_int_eq(result.bits[1], test.bits[1]);
+  ck_assert_int_eq(result.bits[2], test.bits[2]);
+  int pow = get_scale(&result);
+  ck_assert_int_eq(pow, 28);
+}
+
+
+#test _div_normalize
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  _decimal test = {0};
+  value_1.bits[0] = 4294967295;
+  value_2.bits[0] = 2;
+  test.bits[0] = 4294967291;
+  test.bits[1] = 4;
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], test.bits[0]);
+  ck_assert_int_eq(result.bits[1], test.bits[1]);
+  ck_assert_int_eq(get_scale(&result), 1);
+}
+
+
+#test _div_min_pow
+{
+  _decimal value_1 = {{3333388888}};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  _decimal test = {0};
+  value_2.bits[0] = 4294967295;
+  value_2.bits[1] = 4294967295;
+  test.bits[0] = 1409956271;
+  test.bits[1] = 4207;
+  test.bits[2] = 0;
+  set_scale(&value_1, 5);
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(get_scale(&result), 28);
+  ck_assert_int_eq(result.bits[0], test.bits[0]);
+  ck_assert_int_eq(result.bits[1], test.bits[1]);
+}
+
+
+#test _div_min_pow_second_dec
+{
+  _decimal value_1 = {{3333388888}};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  _decimal test = {0};
+  value_2.bits[0] = 22647;
+  test.bits[0] = 3777176791;
+  test.bits[1] = 1197098455;
+  test.bits[2] = 797913073;
+  set_scale(&value_1, 5);
+  set_scale(&value_2, 3);
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(get_scale(&result), 25);
+  ck_assert_int_eq(result.bits[0], test.bits[0]);
+  ck_assert_int_eq(result.bits[1], test.bits[1]);
+}
+
+
+#test _div_pow_small
+{
+  _decimal value_1 = {{291}};
+  _decimal value_2 = {{123}};
+  _decimal result = {0};
+  _decimal test = {0};
+  test.bits[0] = 425568406;
+  test.bits[1] = 790584587;
+  test.bits[2] = 1282531838;
+  set_scale(&value_2, 28);
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(get_scale(&result), 0);
+  ck_assert_int_eq(result.bits[0], test.bits[0]);
+  ck_assert_int_eq(result.bits[1], test.bits[1]);
+  ck_assert_int_eq(result.bits[2], test.bits[2]);
+}
+
+
+#test _div_max
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  _decimal test = {0};
+  value_1.bits[0] = 4294967295;
+  value_1.bits[1] = 4294967295;
+  value_1.bits[2] = 4294967295;
+  value_2.bits[0] = 4294967295;
+  value_2.bits[1] = 4294967295;
+  value_2.bits[2] = 4294967295;
+  test.bits[0] = 1;
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], test.bits[0]);
+  ck_assert_int_eq(get_scale(&result), 0);
+}
+
+
+#test _div_pos_over
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  value_1.bits[0] = 4294967295;
+  value_1.bits[1] = 4294967295;
+  value_1.bits[2] = 4294967295;
+  value_2.bits[0] = 2;
+  set_scale(&value_2, 5);
+  int over = _div(value_1, value_2, &result);
+  ck_assert_int_eq(over, 1);
+  set_sign(&value_1, 1);
+  set_sign(&value_2, 1);
+  over = _div(value_1, value_2, &result);
+  ck_assert_int_eq(over, 1);
+}
+
+
+#test _div_neg_over
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  value_1.bits[0] = 4294967295;
+  value_1.bits[1] = 4294967295;
+  value_1.bits[2] = 4294967295;
+  value_2.bits[0] = 2;
+  set_scale(&value_2, 5);
+  set_sign(&value_1, 1);
+  int over = _div(value_1, value_2, &result);
+  ck_assert_int_eq(over, 2);
+  set_sign(&value_1, 0);
+  set_sign(&value_2, 1);
+  over = _div(value_1, value_2, &result);
+  ck_assert_int_eq(over, 2);
+}
+
+
+#test _div_one
+{
+  _decimal value_1 = {{745}};
+  _decimal value_2 = {{1}};
+  _decimal result = {0};
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], value_1.bits[0]);
+  ck_assert_int_eq(get_sign(result), 0);
+  set_sign(&value_2, 1);
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], value_1.bits[0]);
+  ck_assert_int_eq(get_sign(result), 1);
+}
+
+
+#test _div_pow_norm
+{
+  _decimal value_1 = {0};
+  _decimal value_2 = {0};
+  _decimal result = {0};
+  _decimal test = {0};
+  value_1.bits[0] = 4294967295;
+  value_1.bits[1] = 4294967295;
+  value_1.bits[2] = 4294967295;
+  value_2.bits[0] = 112;
+  test.bits[0] = 1227133512;
+  test.bits[1] = 2454267026;
+  test.bits[2] = 3834792228;
+  _div(value_1, value_2, &result);
+  ck_assert_int_eq(result.bits[0], test.bits[0]);
+  ck_assert_int_eq(result.bits[1], test.bits[1]);
+  ck_assert_int_eq(result.bits[2], test.bits[2]);
+  ck_assert_int_eq(get_scale(&result), 2);
+}
+
+
+#test div_15
+{
+  _decimal value_1 = {.bits[0] = 0x00000001,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x00000000};  // 1
+
+  _decimal value_2 = {.bits[0] = 0x00000001,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x00000000};  // 1
+
+  _decimal reference_result = {.bits[0] = 0x00000001,
+                                  .bits[1] = 0x00000000,
+                                  .bits[2] = 0x00000000,
+                                  .bits[3] = 0x00000000};  // 1
+  _decimal result = {0};
+  int sub_result = _div(value_1, value_2, &result);
+  ck_assert_int_eq(sub_result, 0);
+  ck_assert_int_eq(result.bits[0], reference_result.bits[0]);
+  ck_assert_int_eq(result.bits[1], reference_result.bits[1]);
+  ck_assert_int_eq(result.bits[2], reference_result.bits[2]);
+  ck_assert_int_eq(result.bits[3], reference_result.bits[3]);
+}
+
+
+#test div_16
+ {
+  _decimal value_1 = {.bits[0] = 0x00000002,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x00000000};  // 2
+
+  _decimal value_2 = {.bits[0] = 0x00000001,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x00000000};  // 1
+
+  _decimal reference_result = {.bits[0] = 0x00000002,
+                                  .bits[1] = 0x00000000,
+                                  .bits[2] = 0x00000000,
+                                  .bits[3] = 0x00000000};  // 2
+  _decimal result = {0};
+  int sub_result = _div(value_1, value_2, &result);
+  ck_assert_int_eq(sub_result, 0);
+  ck_assert_int_eq(result.bits[0], reference_result.bits[0]);
+  ck_assert_int_eq(result.bits[1], reference_result.bits[1]);
+  ck_assert_int_eq(result.bits[2], reference_result.bits[2]);
+  ck_assert_int_eq(result.bits[3], reference_result.bits[3]);
+}
+
+#test div_17
+{
+  _decimal value_1 = {.bits[0] = 0x00000002,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x80000000};  // -2
+
+  _decimal value_2 = {.bits[0] = 0x00000001,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x00000000};  // 1
+
+  _decimal reference_result = {.bits[0] = 0x00000002,
+                                  .bits[1] = 0x00000000,
+                                  .bits[2] = 0x00000000,
+                                  .bits[3] = 0x80000000};  // -2
+  _decimal result = {0};
+  int sub_result = _div(value_1, value_2, &result);
+  ck_assert_int_eq(sub_result, 0);
+  ck_assert_int_eq(result.bits[0], reference_result.bits[0]);
+  ck_assert_int_eq(result.bits[1], reference_result.bits[1]);
+  ck_assert_int_eq(result.bits[2], reference_result.bits[2]);
+  ck_assert_int_eq(result.bits[3], reference_result.bits[3]);
+}
+END_TEST
+
+#test div_18
+{
+  _decimal value_1 = {.bits[0] = 0x00000002,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x80000000};  // -2
+
+  _decimal value_2 = {.bits[0] = 0x00000001,
+                         .bits[1] = 0x00000000,
+                         .bits[2] = 0x00000000,
+                         .bits[3] = 0x80000000};  // -1
+
+  _decimal reference_result = {.bits[0] = 0x00000002,
+                                  .bits[1] = 0x00000000,
+                                  .bits[2] = 0x00000000,
+                                  .bits[3] = 0x00000000};  // 2
+  _decimal result = {0};
+  int sub_result = _div(value_1, value_2, &result);
+  ck_assert_int_eq(sub_result, 0);
+  ck_assert_int_eq(result.bits[0], reference_result.bits[0]);
+  ck_assert_int_eq(result.bits[1], reference_result.bits[1]);
+  ck_assert_int_eq(result.bits[2], reference_result.bits[2]);
+  ck_assert_int_eq(result.bits[3], reference_result.bits[3]);
+}

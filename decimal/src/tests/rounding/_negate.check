@@ -1,0 +1,179 @@
+#include "_decimal.h"
+
+// 14354
+#test negate_1
+{
+    int res = 0;
+    _decimal dec, result, answer;
+    null_decimal(&dec);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 14354;
+    _from_int_to_decimal(number, &dec);
+    number = -14354;
+    _from_int_to_decimal(number, &answer);
+    res = _negate(dec, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 1);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 143.54
+#test negate_2
+{
+    int res = 0;
+    _decimal dec, result, answer;
+    null_decimal(&dec);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = 14354;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = -14354;
+    _from_int_to_decimal(number, &answer);
+    set_scale(&answer, 2);
+    res = _negate(dec, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 1);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// -143.54
+#test negate_3
+{
+    int res = 0;
+    _decimal dec, result, answer;
+    null_decimal(&dec);
+    null_decimal(&result);
+    null_decimal(&answer);
+    int number = -14354;
+    _from_int_to_decimal(number, &dec);
+    set_scale(&dec, 2);
+    number = 14354;
+    _from_int_to_decimal(number, &answer);
+    set_scale(&answer, 2);
+    res = _negate(dec, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// супер большое положительное число
+#test negate_4
+{
+    int res = 0;
+    _decimal dec, result, answer;
+    null_decimal(&dec);
+    null_decimal(&result);
+    null_decimal(&answer);
+    dec.bits[0] = 36555555;
+    dec.bits[1] = 100;      
+    dec.bits[2] = 263;
+    set_scale(&dec, 5);
+    answer.bits[0] = 36555555;
+    answer.bits[1] = 100;
+    answer.bits[2] = 263;
+    set_scale(&answer, 5);
+    set_sign(&answer, 1);
+    res = _negate(dec, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 1);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// супер большое отрицательное число
+#test negate_5
+{
+    int res = 0;
+    _decimal dec, result, answer;
+    null_decimal(&dec);
+    null_decimal(&result);
+    null_decimal(&answer);
+    dec.bits[0] = 651651;
+    dec.bits[1] = 3546;      
+    dec.bits[2] = 654;
+    set_scale(&dec, 5);
+    set_sign(&dec, 1);
+    answer.bits[0] = 651651;
+    answer.bits[1] = 3546;
+    answer.bits[2] = 654;
+    set_scale(&answer, 5);
+    res = _negate(dec, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+// 0
+#test negate_6
+{
+    int res = 0;
+    _decimal dec, result, answer;
+    null_decimal(&dec);
+    null_decimal(&result);
+    null_decimal(&answer);
+    res = _negate(dec, &result);
+
+    int sign_1 = get_sign(result);
+    ck_assert_int_eq(sign_1, 0);
+
+    int compare = _compare(&result, &answer);
+    ck_assert_int_eq(compare, 0);
+    ck_assert_int_eq(res, 0);
+}
+
+
+#test _negate_7
+{
+  _decimal a = {{0x23559a40, 0x00000002, 0x00000000, 0x800a0000}};
+  _decimal res;
+  _decimal expected = {{0x23559a40, 0x00000002, 0x00000000, 0x000a0000}};
+  int _ret = _negate(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+
+#test _negate_8
+{
+  _decimal a = {{0xd6b52360, 0x00000001, 0x00000000, 0x800a0000}};
+  _decimal res;
+  _decimal expected = {{0xd6b52360, 0x00000001, 0x00000000, 0x000a0000}};
+  int _ret = _negate(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
+
+
+#test _negate_9
+{
+  _decimal a = {{0x23559a40, 0x00000002, 0x00000000, 0x000a0000}};
+  _decimal res;
+  _decimal expected = {{0x23559a40, 0x00000002, 0x00000000, 0x800a0000}};
+  int _ret = _negate(a, &res);
+  int expected_ret = 0;
+  ck_assert_int_eq(_ret, expected_ret);
+  ck_assert_mem_eq(&expected, &res, 4 * sizeof(uint32_t));
+}
