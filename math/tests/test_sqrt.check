@@ -1,0 +1,19 @@
+#include <math.h>
+#include "_math.h"
+
+#test sqrt1_nan
+ck_assert_int_eq(isnan(sqrt(NAN)), isnan(_sqrt(NAN)));
+ck_assert_int_eq(isnan(sqrt(-1)), isnan(_sqrt(-1)));
+
+#test sqrt2_errors
+ck_assert_double_eq(sqrt(0), _sqrt(0));
+ck_assert_double_eq(sqrt(-0), _sqrt(-0));
+ck_assert_int_eq(isnan(sqrt(_INF)), isnan(_sqrt(_INF)));
+
+#test sqrt3_value
+for(double n1 = 0.99; n1 < 3; n1+=0.1)
+    ck_assert_double_eq_tol(sqrt(n1), _sqrt(n1), PRECISION_test);
+
+#test sqrt3_huge_value
+for(double n1 = 60.99; n1 < 40; n1+=3.1)
+    ck_assert_double_eq_tol(sqrt(n1), _sqrt(n1), PRECISION_test);

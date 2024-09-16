@@ -1,0 +1,21 @@
+#include <math.h>
+#include "_math.h"
+
+#test cos1_nan
+ck_assert_int_eq(isnan(cos(NAN)), isnan(_cos(NAN)));
+
+#test cos2_errors
+ck_assert_double_eq(cos(0), _cos(0));
+ck_assert_double_eq(cos(-0), _cos(-0));
+ck_assert_int_eq(isnan(cos(_INF)), isnan(_cos(_INF)));
+ck_assert_int_eq(isnan(cos(-_INF)), isnan(_cos(-_INF)));
+
+#test cos3_value
+for(double n1 = -0.99; n1 < 1; n1+=0.1)
+    ck_assert_double_eq_tol(cos(n1), _cos(n1), PRECISION_test);
+
+#test cos3_huge_value
+for(double n1 = -60.99; n1 < -40; n1+=3.1){
+    ck_assert_double_eq_tol(cos(n1), _cos(n1), PRECISION_test);
+    ck_assert_double_eq_tol(cos(-n1), _cos(-n1), PRECISION_test);
+}

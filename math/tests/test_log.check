@@ -1,0 +1,21 @@
+#include <math.h>
+#include "_math.h"
+
+#test log1_nan
+ck_assert_int_eq(isnan(log(NAN)), isnan(_log(NAN)));
+
+#test log2_errors
+ck_assert_double_eq(log(0), _log(0));
+ck_assert_double_eq(log(-0), _log(-0));
+ck_assert_int_eq(isnan(log(_INF)), isnan(_log(_INF)));
+ck_assert_int_eq(isnan(log(-_INF)), isnan(_log(-_INF)));
+ck_assert_double_eq(log(1), _log(1));
+ck_assert_int_eq(isnan(log(-3)), isnan(_log(-3)));
+
+#test log3_value
+for(double n1 = 0.99; n1 < 5; n1+=0.1)
+    ck_assert_double_eq_tol(log(n1), _log(n1), PRECISION_test);
+
+#test log3_huge_value
+for(double n1 = 40.99; n1 < 60; n1+=3.1)
+    ck_assert_double_eq_tol(log(n1), _log(n1), PRECISION_test);

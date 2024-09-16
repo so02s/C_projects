@@ -1,0 +1,20 @@
+#include <math.h>
+#include "_math.h"
+#test tan1_nan
+ck_assert_int_eq(isnan(tan(NAN)), isnan(_tan(NAN)));
+
+#test tan2_errors
+ck_assert_double_eq(tan(0), _tan(0));
+ck_assert_double_eq(tan(-0), _tan(-0));
+ck_assert_int_eq(isnan(tan(_INF)), isnan(_tan(_INF)));
+ck_assert_int_eq(isnan(tan(-_INF)), isnan(_tan(-_INF)));
+
+#test tan3_value
+for(double n1 = -0.99; n1 < 1; n1+=0.1)
+    ck_assert_double_eq_tol(tan(n1), _tan(n1), PRECISION_test);
+
+#test tan3_huge_value
+for(double n1 = -60.99; n1 < -40; n1+=3.1){
+    ck_assert_double_eq_tol(tan(n1), _tan(n1), PRECISION_test);
+    ck_assert_double_eq_tol(tan(-n1), _tan(-n1), PRECISION_test);
+}

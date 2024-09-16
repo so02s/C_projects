@@ -1,0 +1,22 @@
+#include <math.h>
+#include "_math.h"
+
+#test floor_1
+for(double i = -10; i < 10; i+= 0.1){
+ck_assert_double_eq(floor(i),_floor(i));}
+
+#test floor_2
+for(double i = -0.2; i < 0.2; i+= 0.01){
+ck_assert_double_eq_tol(floor(i),_floor(i), PRECISION_test);}
+
+#test floor_3
+long double x = NAN;
+ck_assert_ldouble_nan(_floor(x));
+
+#test floor_4
+double x = _INF;
+ck_assert_double_eq(floor(x), _floor(x));
+
+#test floor_5
+double x = _NEG_INF;
+ck_assert_double_eq(floor(x), _floor(x));

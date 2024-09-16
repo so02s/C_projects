@@ -1,0 +1,32 @@
+#include <math.h>
+#include "_math.h"
+
+#test fmod1_nan
+double x = 0, y = 0;
+ck_assert_int_eq(isnan(fmod(x, y)), isnan(_fmod(x, y)));
+x = _INF;
+y = 2;
+ck_assert_int_eq(isnan(fmod(x, y)), isnan(_fmod(x, y)));
+ck_assert_int_eq(isnan(fmod(-x, y)), isnan(_fmod(-x, y)));
+x = 2;
+y = 0;
+ck_assert_int_eq(isnan(fmod(x, y)), isnan(_fmod(x, y)));
+ck_assert_int_eq(isnan(fmod(x, -y)), isnan(_fmod(x, -y)));
+ck_assert_int_eq(isnan(fmod(NAN, NAN)), isnan(_fmod(NAN, NAN)));
+
+#test fmod2_errors
+double x = 0, y = 2;
+ck_assert_double_eq(fmod(x, y), _fmod(x, y));
+x = -0;
+y = 2;
+ck_assert_double_eq(fmod(x, y), _fmod(x, y));
+ck_assert_double_eq(fmod(2, _INF), _fmod(2, _INF));
+ck_assert_double_eq(fmod(2, -_INF), _fmod(2, -_INF));
+
+#test fmod3_value
+for(double n1 = 0.99; n1 < 5; n1+=0.1)
+    ck_assert_double_eq_tol(fmod(n1, 2), _fmod(n1, 2), PRECISION_test);
+
+#test fmod3_huge_value
+for(double n1 = 40.99; n1 < 60; n1+=3.1)
+    ck_assert_double_eq_tol(fmod(n1, 3), _fmod(n1, 3), PRECISION_test);

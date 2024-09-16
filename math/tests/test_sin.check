@@ -1,0 +1,21 @@
+#include <math.h>
+#include "_math.h"
+
+#test sin1_nan
+ck_assert_int_eq(isnan(sin(NAN)), isnan(_sin(NAN)));
+
+#test sin2_errors
+ck_assert_double_eq(sin(0), _sin(0));
+ck_assert_double_eq(sin(-0), _sin(-0));
+ck_assert_int_eq(isnan(sin(_INF)), isnan(_sin(_INF)));
+ck_assert_int_eq(isnan(sin(-_INF)), isnan(_sin(-_INF)));
+
+#test sin3_value
+for(double n1 = -0.99; n1 < 1; n1+=0.1)
+    ck_assert_double_eq_tol(sin(n1), _sin(n1), PRECISION_test);
+
+#test sin3_huge_value
+for(double n1 = -60.99; n1 < -40; n1+=3.1){
+    ck_assert_double_eq_tol(sin(n1), _sin(n1), PRECISION_test);
+    ck_assert_double_eq_tol(sin(-n1), _sin(-n1), PRECISION_test);
+}

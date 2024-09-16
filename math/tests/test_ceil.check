@@ -1,0 +1,22 @@
+#include <math.h>
+#include "_math.h"
+
+#test ceil_1
+for(double i = -10; i < 10; i+= 0.1)
+    ck_assert_double_eq(ceil(i),_ceil(i));
+
+#test ceil_2
+for(double i = -4.449; i < 4.501; i+= 0.001)
+    ck_assert_double_eq_tol(ceil(i),_ceil(i), PRECISION_test);
+
+#test ceil_3
+long double x = NAN;
+ck_assert_ldouble_nan(_ceil(x));
+
+#test ceil_4
+double x = _INF;
+ck_assert_double_eq(ceil(x), _ceil(x));
+
+#test ceil_5
+double x = _NEG_INF;
+ck_assert_double_eq(ceil(x), _ceil(x));
